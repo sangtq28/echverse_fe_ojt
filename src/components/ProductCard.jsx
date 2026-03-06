@@ -1,3 +1,5 @@
+import CarCard from "./CarCard";
+
 function ProductCard({ name, price, onAdd }) {
   return (
     <div>
@@ -7,6 +9,7 @@ function ProductCard({ name, price, onAdd }) {
       <button onClick={() => onAdd({ name: name, price: price })}>
         Add to Cart
       </button>
+      <CarCard />
     </div>
   );
 }
