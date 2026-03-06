@@ -1,8 +1,7 @@
-import React, cn from "react";
-dsf 
+import React from "react";
+
 function CarCard() {
   return <div>CarCard</div>;
 }
 
 export default CarCard;
-sdfdf
