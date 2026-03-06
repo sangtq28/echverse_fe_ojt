@@ -1,5 +1,5 @@
 name: CI - frontend
-
+#Trigger - this define the CI workflow should run
 on:
   pull_request:
     branches: ["master"]
@@ -8,16 +8,20 @@ on:
 
 jobs:
   fe-ci:
+    #runner machine
     runs-on: ubuntu-latest
-
+    #A job contains step
+    #Steps run one ater abitnother
     steps:
+      #Equivalent to: git clone <repo> - downloads repository code into the runner
       - uses: actions/checkout@v4
-
+      #Setup Node.js on the runner
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          #Instead of downloading dependencies every times : npm install - github stores them in cache and reuses them
           cache: npm
-
+      #install dependencies
       - name: Install dependenices
         run: npm ci
 
@@ -26,6 +30,6 @@ jobs:
 
       - name: Run tests
         run: npm test -- --run
-
+      #Builds the production version of your frontend app
       - name: Build project
         run: npm run build
