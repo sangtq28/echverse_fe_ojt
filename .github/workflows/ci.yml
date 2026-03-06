@@ -1,35 +1,70 @@
-name: CI - frontend
-#Trigger - this define the CI workflow should run
+# ==========================================================
+# Frontend Continuous Integration (CI)
+# ----------------------------------------------------------
+# Purpose:
+#   Validate frontend code before it is merged into main.
+#
+# Triggers:
+#   1. Pull Request targeting the main branch
+#   2. Push (commit/merge) to the main branch
+#
+# CI Steps:
+#   1. Checkout repository
+#   2. Display commit information
+#   3. Setup Node.js environment
+#   4. Install dependencies
+#   5. Run lint checks
+#   6. Run unit tests
+#   7. Build the production bundle
+#
+# Maintainer: Your Name
+# ==========================================================
+
+name: Frontend CI
+
 on:
   pull_request:
-    branches: ["master"]
+    branches: ["main"]
   push:
-    branches: ["master"]
+    branches: ["main"]
 
 jobs:
-  fe-ci:
-    #runner machine
+  frontend-ci:
+    name: Run Frontend CI Pipeline
     runs-on: ubuntu-latest
-    #A job contains step
-    #Steps run one ater abitnother
+
     steps:
-      #Equivalent to: git clone <repo> - downloads repository code into the runner
-      - uses: actions/checkout@v4
-      #Setup Node.js on the runner
-      - uses: actions/setup-node@v4
+      # Step 1 — Checkout repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2 — Display commit information
+      - name: Show commit metadata
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Branch: $GITHUB_REF"
+          echo "Commit SHA: $GITHUB_SHA"
+          echo "Triggered by: $GITHUB_ACTOR"
+
+      # Step 3 — Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          #Instead of downloading dependencies every times : npm install - github stores them in cache and reuses them
           cache: npm
-      #install dependencies
-      - name: Install dependenices
+
+      # Step 4 — Install dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Run lint
+      # Step 5 — Run linter
+      - name: Run lint checks
         run: npm run lint --if-present
 
-      - name: Run tests
+      # Step 6 — Run tests
+      - name: Run unit tests
         run: npm test -- --run
-      #Builds the production version of your frontend app
-      - name: Build project
+
+      # Step 7 — Build production bundle
+      - name: Build application
         run: npm run build
