@@ -1,4 +1,5 @@
 import CarCard from "./CarCard";
+import InfoCard from "./InfoCard";
 
 function ProductCard({ name, price, onAdd }) {
   return (
@@ -10,6 +11,7 @@ function ProductCard({ name, price, onAdd }) {
         Add to Cart
       </button>
       <CarCard />
+      <InfoCard />
     </div>
   );
 }
