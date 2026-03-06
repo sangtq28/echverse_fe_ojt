@@ -1,0 +1,29 @@
+name: CI - frontend
+
+on:
+  pull_request:
+    branches: ["master"]
+  puhs:
+    branches: ["master"]
+
+jobs:
+  fe-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: action/checkout@v4
+        with:
+          node:-version: 20
+          cache: npm
+
+      - name: Install dependenices
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint --if-present
+
+      - name: Run tests
+        run: npm test -- --watchAll=false
+
+      - name: Build project
+        run: npm run build
